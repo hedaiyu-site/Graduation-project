@@ -3,9 +3,8 @@ import re
 import frontmatter
 from neo4j import GraphDatabase
 import spacy
-from typing import List, Dict, Tuple, Set
+from typing import List, Dict, Tuple
 import json
-from pathlib import Path
 
 
 class MDKnowledgeGraphBuilder:
@@ -71,7 +70,6 @@ class MDKnowledgeGraphBuilder:
             }
         except Exception as e:
             print(f"解析文件 {md_file_path} 时出错: {e}")
-            return None
 
     def _clean_markdown(self, text: str) -> str:
         """
@@ -232,7 +230,7 @@ class MDKnowledgeGraphBuilder:
         # 提取内容
         doc_info = self.extract_markdown_content(md_file_path)
         if not doc_info:
-            return None
+            return {}
 
         # 提取实体
         if self.nlp:

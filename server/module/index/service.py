@@ -4,7 +4,7 @@ from .models import UserInDB
 
 # 模拟数据库
 fake_user_db: Dict[str, UserInDB] = {
-    "admin": UserInDB(username="admin", password="secret")
+    "admin": UserInDB(username="admin", password="123")
 }
 
 

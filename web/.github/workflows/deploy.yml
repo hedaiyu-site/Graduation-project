@@ -1,0 +1,40 @@
+name: Deploy Vite Vue App to Server
+
+on:
+  push:
+    branches: [ main ]  # 只监听 main 分支的推送
+  # 也可以加 pull_request 来预览，但部署一般只用 push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18  # 根据你项目要求调整（如 18, 20）
+          cache: 'npm'      # 缓存 node_modules 加速
+
+      # 3. 安装依赖 & 构建
+      - name: Install dependencies and build
+        run: |
+          npm ci          # 比 npm install 更干净（根据 package-lock.json）
+          npm run build   # 生成 dist 目录
+
+      # 4. 通过 SCP 将 dist 上传到服务器
+      - name: Deploy to server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/*"               # 上传 dist 下所有文件
+          target: "/var/www/my-vue-app"  # 服务器目标目录
+          rm: true                       # 删除服务器上不再存在的文件（可选）
+          strip_components: 1            # 因为 source 是 dist/*，所以去掉 dist 层

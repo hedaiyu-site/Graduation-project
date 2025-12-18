@@ -20,3 +20,7 @@ class LoginRequest(BaseModel):
 class LoginResponse(BaseModel):
     message: str
     user: Optional[dict] = None
+
+
+class RegRequest(LoginRequest):
+    confirm_password: str

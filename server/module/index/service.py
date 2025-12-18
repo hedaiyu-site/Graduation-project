@@ -1,19 +1,23 @@
 from typing import Optional, Dict
 from .models import UserInDB
+from utils.mysql_client import get_mysql_connection
 
-
-# 模拟数据库
-fake_user_db: Dict[str, UserInDB] = {
-    "admin": UserInDB(username="admin", password="123")
-}
 
 
 def authenticate_user(username:str, password:str) -> Optional[UserInDB]:
     """验证用户凭证"""
-    user = fake_user_db.get(username)
-    if not user or user.password != password:
-        return None
-    return user
+    connection = get_mysql_connection()
+    try:
+        with connection.cursor() as cursor:
+            query_sql = "SELECT * FROM uers WHERE username=%s AND password=%s"
+            cursor.execute(query_sql,(username,password))
+            result = cursor.fetchone()
+            if result:
+                return UserInDB(**result)
+            else:
+                return None
+    finally:
+        connection.close()
 
 
 def get_user_info(user: UserInDB) -> dict:

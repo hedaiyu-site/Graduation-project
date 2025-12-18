@@ -3,7 +3,7 @@
     <!-- 顶部导航栏 -->
     <header class="top-nav">
       <div class="logo">
-        <img src="./assets/textxpython_92740.svg" alt="Python Learning" />
+        <img src="../assets/textxpython_92740.svg" alt="Python Learning" />
         <span style="font-size: large">Python学习智能辅导系统</span>
       </div>
       <div class="nav-right">

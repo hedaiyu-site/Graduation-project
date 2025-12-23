@@ -17,9 +17,13 @@ class KnowledgeGraphEnhancedAPI:
         # 实现知识图谱连接逻辑
         pass
 
+    def search_knowledge_graph(self,user_query):
+        # 知识图谱查询
+        pass
+
     def query_with_knowledge_graph(self, user_query):
         # 从知识图谱中检索相关信息
-        kg_context = self.search_konwledge_graph(user_query)
+        kg_context = self.search_knowledge_graph(user_query)
 
         # 构建增强的消息列表
         messages = [
